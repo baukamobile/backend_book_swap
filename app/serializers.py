@@ -2,22 +2,22 @@ from .models import *
 from rest_framework import serializers
 
 
+# class UserProfileSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = UserProfile
+#         fields = '__all__'
+# from rest_framework import serializers
+# from django.contrib.auth.models import User
+# from .models import UserProfile
+
 class UserProfileSerializer(serializers.ModelSerializer):
     user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
-    first_name = serializers.CharField(source='user.first_name', required=False)
-    last_name = serializers.CharField(source='user.last_name', required=False)
+    user_id = serializers.IntegerField(source='user.id', read_only=True)  # Include user.id as user_id
 
     class Meta:
         model = UserProfile
-        fields = ['user', 'address', 'phone_number', 'first_name', 'last_name']
+        fields = ['user', 'user_id', 'address', 'phone_number', 'created_at']
 
-    def update(self, instance, validated_data):
-        user_data = validated_data.pop('user', None)
-        if user_data:
-            instance.user.first_name = validated_data.get('first_name', instance.user.first_name)
-            instance.user.last_name = validated_data.get('last_name', instance.user.last_name)
-            instance.user.save()
-        return super().update(instance, validated_data)
 
 class BooksSerializer(serializers.ModelSerializer):
     class Meta:
