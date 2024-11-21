@@ -5,8 +5,17 @@ from .models import CustomUser, Book, Transaction, Exchange, Wishlist
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['id', 'name', 'email', 'is_active', 'is_staff', 'is_superuser', 'date_joined', 'last_login']
+        fields = ['id', 'name', 'email', 'password', 'is_active', 'is_staff', 'is_superuser', 'date_joined', 'last_login']
+        extra_kwargs = {'password': {'write_only': True}}  # Make password write-only for security
 
+    def create(self, validated_data):
+        # Ensure password is hashed when creating a new user
+        password = validated_data.pop('password', None)
+        user = super().create(validated_data)
+        if password:
+            user.set_password(password)
+            user.save()
+        return user
 # Serializer for Book model
 class BookSerializer(serializers.ModelSerializer):
     owner = CustomUserSerializer(read_only=True)  # Read-only field showing the owner of the book
