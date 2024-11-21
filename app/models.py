@@ -1,10 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
-
-
-# Create your models here.
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-from django.db import models
 
 # Custom user manager to manage User creation
 class CustomUserManager(BaseUserManager):
@@ -30,7 +25,7 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(email, name, password, **extra_fields)
 
 # Custom User model
-class User(AbstractBaseUser):
+class CustomUser(AbstractBaseUser):
     name = models.CharField(max_length=100)
     email = models.EmailField(max_length=100, unique=True)
     is_active = models.BooleanField(default=True)
@@ -56,7 +51,7 @@ class Book(models.Model):
     condition_choices = [('new', 'New'), ('used', 'Used')]
     condition = models.CharField(max_length=10, choices=condition_choices)
     image = models.ImageField(upload_to='book_images/', blank=True, null=True)  # Optional image for the book
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="owned_books")
+    owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="owned_books")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -65,8 +60,8 @@ class Book(models.Model):
 
 # Transaction model for book sales between users
 class Transaction(models.Model):
-    seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sold_books")
-    buyer = models.ForeignKey(User, on_delete=models.CASCADE, related_name="bought_books")
+    seller = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="sold_books")
+    buyer = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="bought_books")
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateTimeField(auto_now_add=True)
@@ -78,8 +73,8 @@ class Transaction(models.Model):
 
 # Exchange model for book swaps between users
 class Exchange(models.Model):
-    offeror = models.ForeignKey(User, on_delete=models.CASCADE, related_name="offered_books")
-    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name="received_books")
+    offeror = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="offered_books")
+    receiver = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="received_books")
     offeror_book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="offered_in_exchange")
     receiver_book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="received_in_exchange")
     status_choices = [('pending', 'Pending'), ('completed', 'Completed'), ('cancelled', 'Cancelled')]
@@ -91,10 +86,9 @@ class Exchange(models.Model):
 
 # Wishlist model to store books a user wants
 class Wishlist(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     added_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.user.email}'s wishlist for {self.book.title}"
-

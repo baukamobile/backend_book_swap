@@ -1,40 +1,46 @@
-from .models import *
 from rest_framework import serializers
+from .models import CustomUser, Book, Transaction, Exchange, Wishlist
 
-
-# class UserProfileSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = UserProfile
-#         fields = '__all__'
-# from rest_framework import serializers
-# from django.contrib.auth.models import User
-# from .models import UserProfile
-
-class UserProfileSerializer(serializers.ModelSerializer):
-    user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
-    user_id = serializers.IntegerField(source='user.id', read_only=True)  # Include user.id as user_id
-
+# Serializer for CustomUser model
+class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = UserProfile
-        fields = ['user', 'user_id', 'address', 'phone_number', 'created_at', 'date_of_birth']  # Add date_of_birth here
+        model = CustomUser
+        fields = ['id', 'name', 'email', 'is_active', 'is_staff', 'is_superuser', 'date_joined', 'last_login']
 
+# Serializer for Book model
+class BookSerializer(serializers.ModelSerializer):
+    owner = CustomUserSerializer(read_only=True)  # Read-only field showing the owner of the book
 
-class BooksSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
-        fields = '__all__'
+        fields = ['id', 'title', 'author', 'description', 'price', 'condition', 'image', 'owner', 'created_at', 'updated_at']
 
-class ExchangeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Exchange
-        fields = '__all__'
-
+# Serializer for Transaction model
 class TransactionSerializer(serializers.ModelSerializer):
+    seller = CustomUserSerializer(read_only=True)  # Read-only field showing the seller
+    buyer = CustomUserSerializer(read_only=True)  # Read-only field showing the buyer
+    book = BookSerializer(read_only=True)  # Read-only field showing the book in the transaction
+
     class Meta:
         model = Transaction
-        fields = '__all__'
+        fields = ['id', 'seller', 'buyer', 'book', 'price', 'date', 'status']
+
+# Serializer for Exchange model
+class ExchangeSerializer(serializers.ModelSerializer):
+    offeror = CustomUserSerializer(read_only=True)  # Read-only field showing the offeror
+    receiver = CustomUserSerializer(read_only=True)  # Read-only field showing the receiver
+    offeror_book = BookSerializer(read_only=True)  # Read-only field showing the book offered by the offeror
+    receiver_book = BookSerializer(read_only=True)  # Read-only field showing the book received by the receiver
+
+    class Meta:
+        model = Exchange
+        fields = ['id', 'offeror', 'receiver', 'offeror_book', 'receiver_book', 'status', 'date']
+
+# Serializer for Wishlist model
 class WishlistSerializer(serializers.ModelSerializer):
+    user = CustomUserSerializer(read_only=True)  # Read-only field showing the user
+    book = BookSerializer(read_only=True)  # Read-only field showing the book on the wishlist
+
     class Meta:
         model = Wishlist
-        fields = '__all__'
-
+        fields = ['id', 'user', 'book', 'added_at']
