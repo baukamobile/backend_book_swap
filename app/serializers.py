@@ -16,7 +16,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserProfile
-        fields = ['user', 'user_id', 'address', 'phone_number', 'created_at']
+        fields = ['user', 'user_id', 'address', 'phone_number', 'created_at', 'date_of_birth']  # Add date_of_birth here
 
 
 class BooksSerializer(serializers.ModelSerializer):
