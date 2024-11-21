@@ -13,3 +13,6 @@ router.register(r'wishlist', WishlistViewSet)
 urlpatterns = [
     path('api/', include(router.urls)),
 ]
+
+
+#bauka some@gmail.com qwerty
