@@ -1,39 +1,23 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from .models import *
-from rest_framework.response import Response
-from django.contrib.auth.models import User
-from rest_framework import permissions, viewsets
-from .serializers import UserProfileSerializer, BooksSerializer
-from rest_framework.exceptions import ValidationError  # Import for raising validation errors
 from rest_framework import viewsets
-from .models import User, Book, Transaction, Exchange, Wishlist
-from .serializers import UserSerializer, BookSerializer, TransactionSerializer, ExchangeSerializer, WishlistSerializer
+from .models import CustomUser, Book, Transaction, Exchange, Wishlist
+from .serializers import CustomUserSerializer, BookSerializer, TransactionSerializer, ExchangeSerializer, WishlistSerializer
 
-# ViewSet for User
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+class CustomUserViewSet(viewsets.ModelViewSet):
+    queryset = CustomUser.objects.all()  # Ensure queryset is defined
+    serializer_class = CustomUserSerializer
 
-# ViewSet for Book
 class BookViewSet(viewsets.ModelViewSet):
-    queryset = Book.objects.all()
+    queryset = Book.objects.all()  # Ensure queryset is defined
     serializer_class = BookSerializer
 
-# ViewSet for Transaction
 class TransactionViewSet(viewsets.ModelViewSet):
-    queryset = Transaction.objects.all()
+    queryset = Transaction.objects.all()  # Ensure queryset is defined
     serializer_class = TransactionSerializer
 
-# ViewSet for Exchange
 class ExchangeViewSet(viewsets.ModelViewSet):
-    queryset = Exchange.objects.all()
+    queryset = Exchange.objects.all()  # Ensure queryset is defined
     serializer_class = ExchangeSerializer
 
-# ViewSet for Wishlist
 class WishlistViewSet(viewsets.ModelViewSet):
-    queryset = Wishlist.objects.all()
+    queryset = Wishlist.objects.all()  # Ensure queryset is defined
     serializer_class = WishlistSerializer
-
-
-#7765674523
