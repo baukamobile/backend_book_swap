@@ -1,19 +1,11 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from .models import *
-from rest_framework.response import Response
-from django.contrib.auth.models import User
-from rest_framework import permissions, viewsets
-from .serializers import UserProfileSerializer, BooksSerializer
-from rest_framework.exceptions import ValidationError  # Import for raising validation errors
 from rest_framework import viewsets
-from .models import User, Book, Transaction, Exchange, Wishlist
-from .serializers import UserSerializer, BookSerializer, TransactionSerializer, ExchangeSerializer, WishlistSerializer
+from .models import CustomUser, Book, Transaction, Exchange, Wishlist
+from .serializers import CustomUserSerializer, BookSerializer, TransactionSerializer, ExchangeSerializer, WishlistSerializer
 
 # ViewSet for User
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+    queryset = CustomUser.objects.all()
+    serializer_class = CustomUserSerializer
 
 # ViewSet for Book
 class BookViewSet(viewsets.ModelViewSet):
