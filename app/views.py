@@ -44,11 +44,12 @@ class RegisterView(APIView):
         username = data.get("username")
         email = data.get("email")
         password = data.get("password")
+        name = data.get("name")  # Add name to the payload
 
-        if not username or not email or not password:
+        if not username or not email or not password or not name:
             return Response({"error": "All fields are required"}, status=status.HTTP_400_BAD_REQUEST)
 
-        user = CustomUser.objects.create_user(username=username, email=email, password=password)
+        user = CustomUser.objects.create_user(username=username, email=email, password=password, name=name)
         token, _ = Token.objects.get_or_create(user=user)
         return Response({"token": token.key, "message": "User registered successfully"})
 
