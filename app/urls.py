@@ -7,6 +7,7 @@ from .views import (UserViewSet,
                     WishlistViewSet,
                     RegisterView,
                     LoginView,
+                    LogoutView,
                     # LogoutView = RegisterView.as_view())
                     )
 # Create a router and register your viewsets
@@ -20,9 +21,9 @@ router.register(r'wishlist', WishlistViewSet)
 
 urlpatterns = [
     path('api/', include(router.urls)),
-    path('register/', RegisterView.as_view(), name='register'),
+    path('api/register/', RegisterView.as_view(), name='register'),
     path('login/', LoginView.as_view(), name='login'),
-    path('login/', LoginView.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
 ]
 
 
