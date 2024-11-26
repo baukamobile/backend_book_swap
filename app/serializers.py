@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from .models import CustomUser, Book, Transaction, Exchange, Wishlist
+from django.contrib.auth import get_user_model, authenticate
+UserModel = get_user_model()
 
 # Serializer for CustomUser model
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -53,3 +55,13 @@ class WishlistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Wishlist
         fields = ['id', 'user', 'book', 'added_at']
+
+
+class UserRegisterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserModel
+
+class UserLoginSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+
