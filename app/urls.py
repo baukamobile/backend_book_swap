@@ -7,10 +7,7 @@ from .views import (UserViewSet,
                     TransactionViewSet,
                     ExchangeViewSet,
                     WishlistViewSet,
-                    RegisterView,
-                    LoginView,
-                    LogoutView,
-                    # LogoutView = RegisterView.as_view())
+                     get_users,
                     )
 from .views import CustomTokenObtainPairView, CustomTokenRefreshView, logout, register
 # Create a router and register your viewsets
@@ -31,6 +28,7 @@ urlpatterns = [
     path('api/logout/', logout),
     path('api/token/refresh/', CustomTokenRefreshView.as_view(), name='token_refresh'),
     path('register/', register),
+    path('api/users/', get_users),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

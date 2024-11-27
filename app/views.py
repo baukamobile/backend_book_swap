@@ -199,3 +199,9 @@ def logout(request):
     except Exception as e:
         print(e)
         return Response({'success': False})
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_users(request):
+    return Response(User.objects.all())

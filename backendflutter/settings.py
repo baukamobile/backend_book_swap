@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'corsheaders',
 ]
 
-CORS_ALLOWED_CREDENTIALS = True
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -55,7 +55,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # 'corsheaders.middleware.CorsMiddleware',
-    "corsheaders.middleware.CorsMiddleware",
+    'corsheaders.middleware.CorsMiddleware',
     "django.middleware.common.CommonMiddleware",
 ]
 
@@ -64,9 +64,11 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:8000",
     'http://0.0.0.0:8000',
     'http://192.168.0.102:8000',
+    'http://192.168.0.255:8000',
     # "http://127.0.0.1:3000",
     # "http://your-production-url.com",
 ]
+CORS_ALLOWED_ALL_ORIGINS = False
 
 
 ROOT_URLCONF = 'backendflutter.urls'
