@@ -36,6 +36,14 @@ class WishlistViewSet(viewsets.ModelViewSet):
 
 #7765674523
 
+'''
+{
+"username": "Edward",
+"email": "edward@gmail.com",
+"password": "edwardo",
+"name": "edward"
+}
+'''
 
 # Registration View
 class RegisterView(APIView):
@@ -52,8 +60,6 @@ class RegisterView(APIView):
         user = CustomUser.objects.create_user(username=username, email=email, password=password, name=name)
         token, _ = Token.objects.get_or_create(user=user)
         return Response({"token": token.key, "message": "User registered successfully"})
-
-
 # Login View
 class LoginView(APIView):
     def post(self, request):
