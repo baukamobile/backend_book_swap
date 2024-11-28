@@ -41,3 +41,34 @@ urlpatterns = [
 #   "password": "password123",
 #   "name": "Test User221"
 # } title,author,description(max 40 word),price
+
+
+#
+# Hamlet
+# Author: William Shakespeare
+# Description: A tragedy about Prince Hamlet seeking revenge against his uncle, who has murdered his father and married his mother.
+# Price: $9.99
+# Crime and Punishment
+# Author: Fyodor Dostoevsky
+# Description: A psychological novel about a young man’s moral dilemmas after committing a crime in St. Petersburg.
+# Price: $12.99
+# Pride and Prejudice
+# Author: Jane Austen
+# Description: A romantic novel about the evolving love story between Elizabeth Bennet and Mr. Darcy in 19th-century England.
+# Price: $8.99
+# The Alchemist
+# Author: Paulo Coelho
+# Description: A young shepherd embarks on a journey to find treasure, learning about destiny and self-discovery.
+# Price: $14.99
+# To Kill a Mockingbird
+# Author: Harper Lee
+# Description: A young girl learns about racism, injustice, and morality as her father defends a black man falsely accused of rape.
+# Price: $10.99
+# The Adventures of Tom Sawyer
+# Author: Mark Twain
+# Description: A young boy navigates life in the fictional town of St. Petersburg, creating mischief and learning life lessons.
+# Price: $7.99
+# War and Peace
+# Author: Leo Tolstoy
+# Description: A sweeping historical novel set during the Napoleonic Wars, exploring Russian society and personal struggles.
+# Price: $15.99
