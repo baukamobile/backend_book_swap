@@ -40,4 +40,4 @@ urlpatterns = [
 #   "email": "testuser122@example.com",
 #   "password": "password123",
 #   "name": "Test User221"
-# }
+# } title,author,description(max 40 word),price
