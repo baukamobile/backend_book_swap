@@ -95,15 +95,25 @@ WSGI_APPLICATION = 'backendflutter.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'backendflutter',
+#         'USER': 'nurbergen',
+#         'PASSWORD': 'qwerty123',
+#     }
+# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'backendflutter',
-        'USER': 'nurbergen',
-        'PASSWORD': 'qwerty123',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'dNwZLmegBmRseYNPoQsquBHnQdQzXEXN',
+        'PORT': '28361',
     }
 }
 
+#postgresql://postgres:dNwZLmegBmRseYNPoQsquBHnQdQzXEXN@junction.proxy.rlwy.net:28361/railway
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
