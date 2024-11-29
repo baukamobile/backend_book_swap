@@ -42,9 +42,14 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'rest_framework.authtoken',
+    'django.contrib.auth',
     'corsheaders',
 ]
 
+AUTHENTICATION_BACKENDS = (
+    'your_project.authentication.EmailBackend',  # Update with your project path
+    'django.contrib.auth.backends.ModelBackend',  # Keep the default for other cases
+)
 
 
 MIDDLEWARE = [
@@ -119,22 +124,14 @@ DATABASES = {
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
 }
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ],
-}
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',  # If using token authentication
-    ],
-}
+
 # AUTH_USER_MODEL = 'app.CustomUser'
 
 # Password validation

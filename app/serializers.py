@@ -1,23 +1,25 @@
 from rest_framework import serializers
 from .models import CustomUser, Book, Transaction, Exchange, Wishlist
 from django.contrib.auth import get_user_model, authenticate
+from rest_framework_simplejwt.tokens import RefreshToken
+
 UserModel = get_user_model()
 
 # Serializer for CustomUser model
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['id', 'name', 'email', 'password', 'is_active', 'is_staff', 'is_superuser', 'date_joined', 'last_login']
+        fields = ['id', 'name', 'email', 'password', 'address', 'is_active', 'is_staff', 'is_superuser', 'date_joined', 'last_login']
         extra_kwargs = {'password': {'write_only': True}}  # Make password write-only for security
 
     def create(self, validated_data):
-        # Ensure password is hashed when creating a new user
         password = validated_data.pop('password', None)
         user = super().create(validated_data)
         if password:
             user.set_password(password)
             user.save()
         return user
+
 # Serializer for Book model
 class BookSerializer(serializers.ModelSerializer):
     owner = CustomUserSerializer(read_only=True)  # Read-only field showing the owner of the book
@@ -56,37 +58,50 @@ class WishlistSerializer(serializers.ModelSerializer):
         model = Wishlist
         fields = ['id', 'user', 'book', 'added_at']
 
-
-class UserRegisterSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserModel
-
-class UserLoginSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CustomUser
-
-
-#New variant
-from django.contrib.auth.models import User
-from rest_framework_simplejwt.tokens import RefreshToken
-
+# Serializer for User Registration (CustomUser)
 class UserRegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 
     class Meta:
-        model = User
-        fields = ['username', 'email', 'password']
+        model = CustomUser
+        fields = ['email', 'name', 'password', 'address']
 
     def create(self, validated_data):
-        user = User(
-            username=validated_data['username'],
-            email=validated_data['email']
-        )
-        user.set_password(validated_data['password'])
+        password = validated_data.pop('password', None)
+        user = CustomUser(**validated_data)
+        if password:
+            user.set_password(password)
         user.save()
         return user
 
-class UserSerializer(serializers.ModelSerializer):
+# Serializer for User Login (CustomUser)
+class UserLoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True)
+
+    def validate(self, attrs):
+        email = attrs.get('email')
+        password = attrs.get('password')
+
+        # Authenticate the user using email and password
+        user = authenticate(email=email, password=password)
+        if not user:
+            raise serializers.ValidationError("Invalid credentials")
+        attrs['user'] = user
+        return attrs
+
+# JWT Serializer for Token (RefreshToken)
+class JWTSerializer(serializers.Serializer):
+    refresh = serializers.CharField()
+    access = serializers.CharField()
+
     class Meta:
-        model = User
-        fields = ['username']
+        fields = ['refresh', 'access']
+
+    def create(self, validated_data):
+        refresh = RefreshToken.for_user(validated_data['user'])
+        return {
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+        }
+
