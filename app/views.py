@@ -112,45 +112,43 @@ def register(request):
     return Response(serializer.error)
 
 
-class CustomTokenObtainPairView(TokenObtainPairView):
+class CustomTokenRefreshView(TokenRefreshView):
     def post(self, request, *args, **kwargs):
         try:
-            response = super().post(request, *args, **kwargs)
-            tokens = response.data
+            refresh_token = request.COOKIES.get('refresh_token')
 
+            request.data['refresh'] = refresh_token
+
+            response = super().post(request, *args, **kwargs)
+
+            tokens = response.data
             access_token = tokens['access']
             refresh_token = tokens['refresh']
 
-            seriliazer = UserSerializer(request.user, many=False)
-
             res = Response()
-
-            res.data = {'success': True}
+            res.data = {'refreshed': True}
 
             res.set_cookie(
                 key='access_token',
-                value=str(access_token),
+                value=access_token,
                 httponly=True,
-                secure=True,
+                secure=True,  # Make sure your site uses HTTPS
                 samesite='None',
                 path='/'
             )
-
             res.set_cookie(
                 key='refresh_token',
-                value=str(refresh_token),
+                value=refresh_token,
                 httponly=True,
                 secure=True,
                 samesite='None',
                 path='/'
             )
-            res.data.update(tokens)
             return res
 
         except Exception as e:
             print(e)
-            return Response({'success': False})
-
+            return Response({'refreshed': False})
 
 class CustomTokenRefreshView(TokenRefreshView):
     def post(self, request, *args, **kwargs):

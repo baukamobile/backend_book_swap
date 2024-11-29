@@ -2,35 +2,45 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import (UserViewSet,
-                    BookViewSet,
-                    TransactionViewSet,
-                    ExchangeViewSet,
-                    WishlistViewSet,
-                     get_users,
-                    )
-from .views import CustomTokenObtainPairView, CustomTokenRefreshView, logout, register
+from .views import (
+    UserViewSet,
+    BookViewSet,
+    TransactionViewSet,
+    ExchangeViewSet,
+    WishlistViewSet,
+    get_users,
+    CustomTokenRefreshView,
+    logout,
+    register,
+)
+from rest_framework_simplejwt.views import TokenObtainPairView  # Importing this view
+
 # Create a router and register your viewsets
 router = DefaultRouter()
-router.register(    r'users', UserViewSet)
+router.register(r'users', UserViewSet)
 router.register(r'books', BookViewSet)
 router.register(r'transactions', TransactionViewSet)
 router.register(r'exchanges', ExchangeViewSet)
 router.register(r'wishlist', WishlistViewSet)
 
-
 urlpatterns = [
+    # API viewsets
     path('api/', include(router.urls)),
-    # path('api/register/', RegisterView.as_view(), name='register'),
-    # path('api/login/', LoginView.as_view(), name='login'),
-    # path('api/logout/', LogoutView.as_view(), name='logout'),
-    path('api/login/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/logout/', logout),
-    path('api/token/refresh/', CustomTokenRefreshView.as_view(), name='token_refresh'),
-    path('register/', register),
-    path('api/users/', get_users),
 
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    # JWT Authentication
+    path('api/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),  # Corrected this line
+    path('api/logout/', logout, name='logout'),
+    path('api/token/refresh/', CustomTokenRefreshView.as_view(), name='token_refresh'),
+
+    # User Registration (Make this part of API)
+    path('api/register/', register, name='register'),
+
+    # Get Users (ensure authentication)
+    path('api/users/', get_users, name='get_users'),
+]
+
+# Serve media files during development
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 #bauka some@gmail.com qwerty
 
