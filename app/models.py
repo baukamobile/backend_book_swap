@@ -24,7 +24,16 @@ class CustomUserManager(BaseUserManager):
 
         return self.create_user(email, name, password, **extra_fields)
 class RegionUser(models.Model):
-    city = models.CharField(max_length=100, null=True)
+    CITY_CHOICES = [
+        ('almaty', 'Almaty'),
+        ('astana', 'Astana'),
+        ('shymkent', 'Shymkent'),
+        ('aktobe', 'Aktobe'),
+        ('karaganda', 'Karaganda'),
+    ]
+    city = models.CharField(max_length=100,choices=CITY_CHOICES, null=True)
+    def __str__(self):
+        return self.city
 # Custom User model
 class CustomUser(AbstractBaseUser):
     name = models.CharField(max_length=100)
@@ -35,6 +44,7 @@ class CustomUser(AbstractBaseUser):
     is_superuser = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(auto_now=True)
+    region_user = models.ForeignKey(RegionUser, on_delete=models.SET_NULL, null=True, blank=True)
 
     objects = CustomUserManager()
 
@@ -94,3 +104,15 @@ class Wishlist(models.Model):
 
     def __str__(self):
         return f"{self.user.email}'s wishlist for {self.book.title}"
+
+
+
+#
+# Name	Email	Password
+# John Smith	john.smith@example.com	Jsm!89L@o#12
+# Alice Johnson	alice.j@example.com	AJo@2023p#45
+# Robert Brown	robert.brown@example.com	RBr$7Kx!90%T
+# Emily Davis	emily.davis@example.com	EmD@84!cX$2W
+# Michael Wilson	michael.w@example.com	MWil*123#q@9
+
+
