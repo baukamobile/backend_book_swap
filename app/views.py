@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from .models import CustomUser, Book, Transaction, Exchange, Wishlist
-from .serializers import CustomUserSerializer, BookSerializer, TransactionSerializer, ExchangeSerializer, WishlistSerializer
+from .models import User, Book, Transaction, Exchange, Wishlist
+from .serializers import UserSerializer, BookSerializer, TransactionSerializer, ExchangeSerializer, WishlistSerializer
 from rest_framework.authtoken.models import Token
 from rest_framework import status
 from django.contrib.auth import authenticate
@@ -84,8 +84,8 @@ class logoutView(APIView):
 
 # ViewSet for User
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = CustomUser.objects.all()
-    serializer_class = CustomUserSerializer
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 # ViewSet for Book
 class BookViewSet(viewsets.ModelViewSet):
@@ -131,7 +131,7 @@ class RegisterView(APIView):
         if not username or not email or not password or not name:
             return Response({"error": "All fields are required"}, status=status.HTTP_400_BAD_REQUEST)
 
-        user = CustomUser.objects.create_user(username=username, email=email, password=password, name=name)
+        user = User.objects.create_user(username=username, email=email, password=password, name=name)
         token, _ = Token.objects.get_or_create(user=user)
         return Response({"token": token.key, "message": "User registered successfully"})
 # Login View

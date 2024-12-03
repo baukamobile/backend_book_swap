@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CustomUser, Book, Transaction, Exchange, Wishlist
+from .models import User, Book, Transaction, Exchange, Wishlist
 from django.contrib.auth import get_user_model, authenticate
 UserModel = get_user_model()
 
@@ -24,23 +24,23 @@ class UserSerializer(serializers.ModelSerializer):
             return instance
 
 # Serializer for CustomUser model
-class CustomUserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CustomUser
-        fields = ['id', 'name', 'email', 'password', 'is_active', 'is_staff', 'is_superuser', 'date_joined', 'last_login']
-        extra_kwargs = {'password': {'write_only': True}}  # Make password write-only for security
-
-    def create(self, validated_data):
-        # Ensure password is hashed when creating a new user
-        password = validated_data.pop('password', None)
-        user = super().create(validated_data)
-        if password:
-            user.set_password(password)
-            user.save()
-        return user
+# class CustomUserSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = CustomUser
+#         fields = ['id', 'name', 'email', 'password', 'is_active', 'is_staff', 'is_superuser', 'date_joined', 'last_login']
+#         extra_kwargs = {'password': {'write_only': True}}  # Make password write-only for security
+#
+#     def create(self, validated_data):
+#         # Ensure password is hashed when creating a new user
+#         password = validated_data.pop('password', None)
+#         user = super().create(validated_data)
+#         if password:
+#             user.set_password(password)
+#             user.save()
+#         return user
 # Serializer for Book model
 class BookSerializer(serializers.ModelSerializer):
-    owner = CustomUserSerializer(read_only=True)  # Read-only field showing the owner of the book
+    owner = UserSerializer(read_only=True)  # Read-only field showing the owner of the book
 
     class Meta:
         model = Book
@@ -48,8 +48,8 @@ class BookSerializer(serializers.ModelSerializer):
 
 # Serializer for Transaction model
 class TransactionSerializer(serializers.ModelSerializer):
-    seller = CustomUserSerializer(read_only=True)  # Read-only field showing the seller
-    buyer = CustomUserSerializer(read_only=True)  # Read-only field showing the buyer
+    seller = UserSerializer(read_only=True)  # Read-only field showing the seller
+    buyer = UserSerializer(read_only=True)  # Read-only field showing the buyer
     book = BookSerializer(read_only=True)  # Read-only field showing the book in the transaction
 
     class Meta:
@@ -58,8 +58,8 @@ class TransactionSerializer(serializers.ModelSerializer):
 
 # Serializer for Exchange model
 class ExchangeSerializer(serializers.ModelSerializer):
-    offeror = CustomUserSerializer(read_only=True)  # Read-only field showing the offeror
-    receiver = CustomUserSerializer(read_only=True)  # Read-only field showing the receiver
+    offeror = UserSerializer(read_only=True)  # Read-only field showing the offeror
+    receiver = UserSerializer(read_only=True)  # Read-only field showing the receiver
     offeror_book = BookSerializer(read_only=True)  # Read-only field showing the book offered by the offeror
     receiver_book = BookSerializer(read_only=True)  # Read-only field showing the book received by the receiver
 
@@ -69,7 +69,7 @@ class ExchangeSerializer(serializers.ModelSerializer):
 
 # Serializer for Wishlist model
 class WishlistSerializer(serializers.ModelSerializer):
-    user = CustomUserSerializer(read_only=True)  # Read-only field showing the user
+    user = UserSerializer(read_only=True)  # Read-only field showing the user
     book = BookSerializer(read_only=True)  # Read-only field showing the book on the wishlist
 
     class Meta:
@@ -83,7 +83,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
 class UserLoginSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CustomUser
+        model = User
 
 
 #New variant

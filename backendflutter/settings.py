@@ -135,7 +135,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',  # If using token authentication
     ],
 }
-# AUTH_USER_MODEL = 'app.CustomUser'
+AUTH_USER_MODEL = 'app.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

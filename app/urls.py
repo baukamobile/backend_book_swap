@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import *
+from .views import UserViewSet,BookViewSet,TransactionViewSet,ExchangeViewSet,WishlistViewSet, get_users,register,logoutView,loginView,userget
 
 
 # Create a router and register your viewsets
@@ -16,11 +16,11 @@ router.register(r'wishlist', WishlistViewSet)
 
 urlpatterns = [
     path('api/', include(router.urls)),
-                  path('register/', register.as_view()),
+                  path('register/', register),
                   path('login/', loginView.as_view()),
                   path('user/', userget.as_view()),
                   path('logout/', logoutView.as_view()),
-                  path('api/token/refresh/', CustomTokenRefreshView.as_view(), name='token_refresh'),
+                  # path('api/token/refresh/', CustomTokenRefreshView.as_view(), name='token_refresh'),
                   path('api/users/', get_users),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

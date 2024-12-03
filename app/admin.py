@@ -1,9 +1,9 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import CustomUser,Exchange, Book,Transaction,Wishlist
+from .models import User,Exchange, Book,Transaction,Wishlist
 
-admin.site.register(CustomUser)
+admin.site.register(User)
 
 admin.site.register(Exchange)
 
