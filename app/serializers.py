@@ -3,6 +3,26 @@ from .models import CustomUser, Book, Transaction, Exchange, Wishlist
 from django.contrib.auth import get_user_model, authenticate
 UserModel = get_user_model()
 
+
+from .models import User
+
+
+#user serializer
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id','name','second_name','email','age','password']
+        extra_kwargs = {
+            'password':{'write_only':True}
+        }
+    def create(self, validated_data):
+        password = validated_data.pop('password',None)
+        instance = self.Meta.model(**validated_data)
+        if password is not None:
+            instance.set_password(password)
+            instance.save()
+            return instance
+
 # Serializer for CustomUser model
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
