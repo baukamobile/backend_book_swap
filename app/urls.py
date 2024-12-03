@@ -21,13 +21,11 @@ router.register(r'wishlist', WishlistViewSet)
 
 urlpatterns = [
     path('api/', include(router.urls)),
-    # path('api/register/', RegisterView.as_view(), name='register'),
-    # path('api/login/', LoginView.as_view(), name='login'),
-    # path('api/logout/', LogoutView.as_view(), name='logout'),
-    path('api/login/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/logout/', logout),
+                  path('register/', register.as_view()),
+                  path('login/', loginView.as_view()),
+                  path('user/', userget.as_view()),
+                  path('logout/', logoutView.as_view())
     path('api/token/refresh/', CustomTokenRefreshView.as_view(), name='token_refresh'),
-    path('register/', register),
     path('api/users/', get_users),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
