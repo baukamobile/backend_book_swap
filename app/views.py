@@ -226,7 +226,7 @@ class loginView(APIView):
         email = request.data['email']
         password = request.data['password']
 
-        user = User.objects.filter(email = email).first()
+        user = CustomUser.objects.filter(email = email).first()
 
 
         if user is None:
@@ -261,7 +261,7 @@ class userget(APIView):
         except jwt.ExpiredSignatureError:
             raise AuthenticationFailed('unauthenticated')
 
-        user = User.objects.filter(id=payload['id']).first()
+        user = CustomUser.objects.filter(id=payload['id']).first()
         serializer = UserSerializer(user)
 
         return Response(serializer.data)
