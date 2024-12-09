@@ -45,6 +45,8 @@ class CustomUser(AbstractBaseUser):
     date_joined = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(auto_now=True)
     region_user = models.ForeignKey(RegionUser, on_delete=models.SET_NULL, null=True, blank=True)
+    profile_image = models.ImageField(upload_to='profile_img/', null=True, blank=True, default='profile_img/avtr.jpg')  # Profile image
+    book_image = models.ImageField(upload_to='book_img/', null=True, blank=True)  # Profile image
 
     objects = CustomUserManager()
 
@@ -104,6 +106,20 @@ class Wishlist(models.Model):
 
     def __str__(self):
         return f"{self.user.email}'s wishlist for {self.book.title}"
+
+class Chat(models.Model):
+    members = models.ManyToManyField(CustomUser, related_name='chats')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Chat {self.id} - Members: {', '.join([p.email for p in self.participants.all()])}"
+
+class Message(models.Model):
+    chat = models.ForeignKey(Chat, on_delete=models.CASCADE(), related_name="messages")
+    sender = models.ForeignKey(CustomUser,on_delete=models.CASCADE, related_name="sent_messages")
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
 
 
 
