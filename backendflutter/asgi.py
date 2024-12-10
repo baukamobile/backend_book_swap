@@ -14,7 +14,7 @@ from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.auth import AuthMiddlewareStack
 from app.routing import websocket_urlpatterns  # Подключаем маршруты WebSocket из приложения app
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'project_name.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backendflutter.settings')
 
 application = ProtocolTypeRouter({
     "http": get_asgi_application(),
