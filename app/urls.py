@@ -11,7 +11,7 @@ from django.conf.urls.static import static
 # register,
 #                     )
 
-from . views import *
+from .views import *
 
 # from .views import CustomTokenObtainPairView, CustomTokenRefreshView, logout, register
 # Create a router and register your viewsets
@@ -24,6 +24,8 @@ router.register(r'wishlist', WishlistViewSet)
 
 
 urlpatterns = [
+    path("", index, name="index"),
+    path("<str:room_name>/", room, name="room"),
     path('api/', include(router.urls)),
     path('api/register/', register.as_view()),
     path('api/login/', loginView.as_view()),

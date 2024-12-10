@@ -7,9 +7,17 @@ from rest_framework.authtoken.models import Token
 from rest_framework import status
 from django.contrib.auth import authenticate
 from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.shortcuts import render
+
+def index(request):
+    return render(request, "app/index.html")
+
+def room(request, room_name):
+    return render(request, "app/room.html", {"room_name": room_name})
+
+
 # ViewSet for User
 class UserViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all()
