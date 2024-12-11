@@ -52,7 +52,7 @@ class CustomUser(AbstractBaseUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name']
     def __str__(self):
-        return f"{self.name} ({self.email})"
+        return f"{self.id} {self.name} ({self.email})"
 
 # Book model representing a book
 class Book(models.Model):
@@ -68,7 +68,7 @@ class Book(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.title} by {self.author}"
+        return f"{self.id} {self.title} by {self.author}"
 
 # Transaction model for book sales between users
 class Transaction(models.Model):
