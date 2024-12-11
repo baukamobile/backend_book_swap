@@ -38,6 +38,7 @@ class RegionUser(models.Model):
 class CustomUser(AbstractBaseUser):
     name = models.CharField(max_length=100)
     email = models.EmailField(max_length=100, unique=True)
+    phone_number = models.CharField(max_length=15, blank=True, null=True)
     password = models.CharField(max_length=100)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -47,12 +48,9 @@ class CustomUser(AbstractBaseUser):
     region_user = models.ForeignKey(RegionUser, on_delete=models.SET_NULL, null=True, blank=True)
     profile_image = models.ImageField(upload_to='profile_img/', null=True, blank=True, default='profile_img/avtr.jpg')  # Profile image
     book_image = models.ImageField(upload_to='book_img/', null=True, blank=True)  # Profile image
-
     objects = CustomUserManager()
-
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name']
-
     def __str__(self):
         return f"{self.name} ({self.email})"
 
