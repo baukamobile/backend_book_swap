@@ -25,7 +25,7 @@ router.register(r'wishlist', WishlistViewSet)
 
 urlpatterns = [
     path("", index, name="index"),
-    path("<str:room_name>/", room, name="room"),
+    path("chat/<str:room_name>/", room, name="room"),
     path('api/', include(router.urls)),
     path('api/register/', register.as_view()),
     path('api/login/', loginView.as_view()),
