@@ -31,9 +31,11 @@ class RegionUser(models.Model):
         ('aktobe', 'Aktobe'),
         ('karaganda', 'Karaganda'),
     ]
-    city = models.CharField(max_length=100,choices=CITY_CHOICES, null=True)
+    city = models.CharField(max_length=100, choices=CITY_CHOICES, blank=True,default='Almaty')
+
     def __str__(self):
         return self.city
+
 # Custom User model
 class CustomUser(AbstractBaseUser):
     name = models.CharField(max_length=100)
@@ -46,7 +48,7 @@ class CustomUser(AbstractBaseUser):
     last_login = models.DateTimeField(auto_now=True)
     region_user = models.ForeignKey(RegionUser, on_delete=models.SET_NULL, null=True, blank=True)
     profile_image = models.ImageField(upload_to='profile_img/', null=True, blank=True, default='profile_img/avtr.jpg')  # Profile image
-    book_image = models.ImageField(upload_to='book_img/', null=True, blank=True)  # Profile image
+    book_image = models.ImageField(upload_to='book_img/', null=True, blank=True)  # Book image
 
     objects = CustomUserManager()
 
@@ -56,12 +58,30 @@ class CustomUser(AbstractBaseUser):
     def __str__(self):
         return f"{self.name} ({self.email})"
 
-# Book model representing a book
+class Genres(models.Model):
+    GENRE_CHOICES = [
+        ('fiction', 'Fiction'),
+        ('mystery', 'Mystery'),
+        ('fantasy', 'Fantasy'),
+        ('sci-fi', 'Sci-Fi'),
+        ('romance', 'Romance'),
+        ('horror', 'Horror'),
+        ('thriller', 'Thriller'),
+        ('biography', 'Biography'),
+        ('history', 'History'),
+        ('self-help', 'Self-Help'),
+    ]
+    genre = models.CharField(max_length=100, choices=GENRE_CHOICES, blank=True, default='Fiction')
+
+    def __str__(self):
+        return self.genre
+
 class Book(models.Model):
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
     description = models.TextField()
-    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)  # Optional if the book is for exchange
+    genre = models.ForeignKey(Genres, on_delete=models.SET_NULL, null=True, blank=True)  # Genre list
+    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)  # if the book is for exchange
     condition_choices = [('new', 'New'), ('used', 'Used')]
     condition = models.CharField(max_length=10, choices=condition_choices)
     image = models.ImageField(upload_to='book_img/', blank=True, null=True)  # Optional image for the book
