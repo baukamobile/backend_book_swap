@@ -20,6 +20,10 @@ class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
+    def perform_create(self, serializer):
+        # Automatically set the owner to the current authenticated user
+        serializer.save(owner=self.request.CustomUser)
+
 # ViewSet for Transaction
 class TransactionViewSet(viewsets.ModelViewSet):
     queryset = Transaction.objects.all()

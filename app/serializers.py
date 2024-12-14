@@ -26,6 +26,13 @@ class BookSerializer(serializers.ModelSerializer):
         model = Book
         fields = ['id', 'title', 'author', 'description', 'price', 'condition', 'image', 'owner', 'created_at', 'updated_at']
 
+    def create(self, validated_data):
+        # Automatically assign the current user as the owner if not provided
+        if 'owner' not in validated_data:
+            validated_data['owner'] = self.context['request'].user  # Assuming you're using the logged-in user
+
+        return super().create(validated_data)
+
 # Serializer for Transaction model
 class TransactionSerializer(serializers.ModelSerializer):
     seller = CustomUserSerializer(read_only=True)  # Read-only field showing the seller
