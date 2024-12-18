@@ -48,6 +48,7 @@ class CustomUser(AbstractBaseUser):
     last_login = models.DateTimeField(auto_now=True)
     region_user = models.ForeignKey(RegionUser, on_delete=models.SET_NULL, null=True, blank=True)
     profile_image = models.ImageField(upload_to='profile_img/', null=True, blank=True, default='profile_img/avtr.jpg')  # Profile image
+    user_book_id = models.ForeignKey('Book',on_delete=models.SET_NULL, null=True, blank=True)
     book_image = models.ImageField(upload_to='book_img/', null=True, blank=True)  # Book image
 
     objects = CustomUserManager()
