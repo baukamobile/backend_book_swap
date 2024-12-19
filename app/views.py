@@ -282,4 +282,4 @@ class logoutView(APIView):
 
 #chat func
 def index(request):
-    return render(request, "chat/index.html")
+    return render(request, "app/index.html")
