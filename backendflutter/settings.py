@@ -56,7 +56,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
+            "hosts": [("127.0.0.1", 63979)],
         },
     },
 }
@@ -125,6 +125,10 @@ DATABASES = {
         'PASSWORD': 'dNwZLmegBmRseYNPoQsquBHnQdQzXEXN',
         'HOST': 'junction.proxy.rlwy.net',
         'PORT': '28361',
+        #for the tests
+        "TEST": {
+            "NAME": "db.sqlite3",
+        },
     }
 }
 
