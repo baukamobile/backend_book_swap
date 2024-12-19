@@ -289,3 +289,15 @@ def room(request, room_name):
     return render(request, "app/room.html", {"room_name": room_name})
 
 
+from django.http import JsonResponse
+from .models import Chat, Message
+
+def chat_messages(request, room_name):
+    try:
+        chat = Chat.objects.get(id=room_name)
+        messages = chat.messages.order_by('timestamp').values(
+            'sender__email', 'recipient__email', 'content', 'timestamp'
+        )
+        return JsonResponse(list(messages), safe=False)
+    except Chat.DoesNotExist:
+        return JsonResponse({'error': 'Chat not found'}, status=404)

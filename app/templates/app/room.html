@@ -11,40 +11,62 @@
     <input id="chat-message-submit" type="button" value="Send">
     {{ room_name|json_script:"room-name" }}
     <script>
-        const roomName = JSON.parse(document.getElementById('room-name').textContent);
+      // Get the room name from the DOM
+const roomName = JSON.parse(document.getElementById('room-name').textContent);
 
-        const chatSocket = new WebSocket(
-            'ws://'
-            + window.location.host
-            + '/ws/chat/'
-            + roomName
-            + '/'
-        );
+// Create the WebSocket connection
+const chatSocket = new WebSocket(
+    'ws://'
+    + window.location.host
+    + '/ws/chat/'
+    + roomName
+    + '/'
+);
 
-        chatSocket.onmessage = function(e) {
-            const data = JSON.parse(e.data);
-            document.querySelector('#chat-log').value += (data.message + '\n');
-        };
+// Handle incoming messages
+chatSocket.onmessage = function(e) {
+    const data = JSON.parse(e.data);
+    const chatLog = document.querySelector('#chat-log');
+    const newMessage = document.createElement('p');
+    newMessage.innerHTML = `<b>${data.sender}:</b> ${data.message}`;
+    chatLog.appendChild(newMessage);
+};
 
-        chatSocket.onclose = function(e) {
-            console.error('Chat socket closed unexpectedly');
-        };
+// Handle WebSocket closure
+chatSocket.onclose = function(e) {
+    console.error('Chat socket closed unexpectedly');
+};
 
-        document.querySelector('#chat-message-input').focus();
-        document.querySelector('#chat-message-input').onkeyup = function(e) {
-            if (e.key === 'Enter') {  // enter, return
-                document.querySelector('#chat-message-submit').click();
-            }
-        };
+// Focus on message input by default
+document.querySelector('#chat-message-input').focus();
 
-        document.querySelector('#chat-message-submit').onclick = function(e) {
-            const messageInputDom = document.querySelector('#chat-message-input');
-            const message = messageInputDom.value;
-            chatSocket.send(JSON.stringify({
-                'message': message
-            }));
-            messageInputDom.value = '';
-        };
+// Handle Enter key press to submit the message
+document.querySelector('#chat-message-input').onkeyup = function(e) {
+    if (e.key === 'Enter') {  // enter, return
+        document.querySelector('#chat-message-submit').click();
+    }
+};
+
+// Handle message submission
+document.querySelector('#chat-message-submit').onclick = function(e) {
+    const messageInputDom = document.querySelector('#chat-message-input');
+    const message = messageInputDom.value;
+
+    // Retrieve sender and recipient emails from hidden fields or inputs
+    const sender = document.querySelector('#sender-email').value;
+    const recipient = document.querySelector('#recipient-email').value;
+
+    // Send the message over the WebSocket
+    chatSocket.send(JSON.stringify({
+        'message': message,
+        'sender': sender,
+        'recipient': recipient
+    }));
+
+    // Clear the input field
+    messageInputDom.value = '';
+};
+
     </script>
 </body>
 </html>
