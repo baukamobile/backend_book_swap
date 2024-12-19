@@ -30,6 +30,7 @@ urlpatterns = [
     path('api/user/', userget.as_view()),
     path('api/logout/',logoutView.as_view()),
     path("api/chat/", index, name="index"),
+    path('api/chat/<str:room_name>/', room),
 
 
     # path('api/login/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
