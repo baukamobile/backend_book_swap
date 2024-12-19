@@ -28,7 +28,8 @@ urlpatterns = [
     path('api/register/', register.as_view()),
     path('api/login/', loginView.as_view()),
     path('api/user/', userget.as_view()),
-    path('api/logout/',logoutView.as_view())
+    path('api/logout/',logoutView.as_view()),
+    path("chat/", index, name="index"),
 
 
     # path('api/login/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),

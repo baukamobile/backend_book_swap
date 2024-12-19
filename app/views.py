@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 from rest_framework.exceptions import AuthenticationFailed
-
+from django.shortcuts import render
 from .models import CustomUser, Book, Transaction, Exchange, Wishlist
 from .serializers import CustomUserSerializer, BookSerializer, TransactionSerializer, ExchangeSerializer, WishlistSerializer
 from rest_framework.authtoken.models import Token
@@ -278,3 +278,8 @@ class logoutView(APIView):
             "message":"success"
         }
         return respnse
+
+
+#chat func
+def index(request):
+    return render(request, "chat/index.html")
