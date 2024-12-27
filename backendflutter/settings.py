@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-cku43lgkg3!7njuh%205x60woq0f1r(kd9wh+r@8e_2ztq#3=m
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
+import environ
 
 # Application definition
 
@@ -167,14 +167,7 @@ USE_I18N = True
 USE_TZ = True
 
 
-import cloudinary
-import cloudinary.uploader
-import cloudinary.api
-cloudinary.config(
-  	cloud_name = "your_cloud_name",
-  	api_key = "your_api_key",
-  	api_secret = "your_api_secret"
-)
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
