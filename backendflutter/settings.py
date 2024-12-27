@@ -32,7 +32,7 @@ cloud_name = env("cloud_name")
 api_key = env("api_key")
 api_secret = env("api_secret")
 
-print("cloud_name:", os.environ.get("cloud_name"))
+print("api_secret:", os.environ.get("api_secret"))
 
 import cloudinary
 import cloudinary.uploader

@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-
+from cloudinary.models import CloudinaryField
 # Custom user manager to manage User creation
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, name, password=None, **extra_fields):
@@ -85,7 +85,8 @@ class Book(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)  # if the book is for exchange
     condition_choices = [('new', 'New'), ('used', 'Used')]
     condition = models.CharField(max_length=10, choices=condition_choices)
-    image = models.ImageField(upload_to='book_img/', blank=True, null=True)  # Optional image for the book
+    # image = models.ImageField(upload_to='book_img/', blank=True, null=True)
+    image = CloudinaryField('image', blank=True, null=True)
     owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="owned_books")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
