@@ -180,7 +180,9 @@ django_heroku.settings(locals())
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-
+env = environ.Env()
+environ.Env.read_env()
+CLOUDINARY_URL = env('CLOUDINARY_URL')
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
