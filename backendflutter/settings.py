@@ -13,13 +13,39 @@ import os
 from pathlib import Path
 import django_heroku
 import dj_database_url
+
+import os
+import environ
+from pathlib import Path
+import django_heroku
+
+# Инициализация окружения
+env = environ.Env(
+    DEBUG=(bool, False)
+)
+
+# Чтение .env
+environ.Env.read_env()
+
+# Получение переменных окружения
+cloud_name = env("cloud_name")
+api_key = env("api_key")
+api_secret = env("api_secret")
+
+print("cloud_name:", os.environ.get("cloud_name"))
+
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+cloudinary.config(
+    cloud_name="cloud_name",
+    api_key="api_key",
+    api_secret="api_secret"
+)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-cku43lgkg3!7njuh%205x60woq0f1r(kd9wh+r@8e_2ztq#3=m'
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -42,7 +68,10 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework.authtoken',
     'corsheaders',
+    'cloudinary',
+    'cloudinary_storage',
 ]
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 
 
@@ -165,10 +194,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
-
-
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
@@ -180,9 +205,6 @@ django_heroku.settings(locals())
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-env = environ.Env()
-environ.Env.read_env()
-CLOUDINARY_URL = env('CLOUDINARY_URL')
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
