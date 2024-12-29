@@ -24,7 +24,8 @@ class BookSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Book
-        fields = ['id', 'title', 'author', 'description', 'price', 'condition', 'image', 'owner', 'created_at', 'updated_at']
+        fields = ['id', 'title', 'author', 'description', 'price', 'condition', 'image', 'owner', 'created_at',
+                  'updated_at']
 
     def create(self, validated_data):
         # Automatically assign the current user as the owner if not provided
@@ -32,6 +33,17 @@ class BookSerializer(serializers.ModelSerializer):
             validated_data['owner'] = self.context['request'].user  # Assuming you're using the logged-in user
 
         return super().create(validated_data)
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        image_url = representation.get('image', '')
+
+        if image_url and not image_url.startswith('http'):
+            # Ensure that we append only the relative URL (without image/upload prefix)
+            representation['image'] = f'{image_url.lstrip("image/upload/")}'
+
+        return representation
+
 
 # Serializer for Transaction model
 class TransactionSerializer(serializers.ModelSerializer):
