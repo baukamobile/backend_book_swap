@@ -36,3 +36,11 @@ for filename in os.listdir(folder_path):
             print(f"success {filename} uploaded to {upload_result['url']}")
         except Exception as e:
             print(f"Error uploading {filename}: {e}")
+
+
+
+
+
+
+
+
