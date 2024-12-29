@@ -38,15 +38,7 @@ class BookSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         image_url = representation.get('image', '')
 
-        if image_url:
-            if image_url.startswith('http'):
-                if not image_url.startswith('https://res'):
-                    # Update the image URL to the appropriate path if it doesn't start with the expected URL
-                    representation['image'] = f'http://res.cloudinary.com/dnellsrv8/{image_url.lstrip("image/upload/")}'
-            else:
-                # Handle cases where the image URL doesn't start with 'http'
-                representation['image'] = f'{image_url.lstrip("image/upload/")}'
-
+        # Убираем изменение URL, так как CloudinaryField уже возвращает правильный полный URL
         return representation
 
 
