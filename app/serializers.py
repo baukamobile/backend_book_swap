@@ -27,12 +27,12 @@ class BookSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'author', 'description', 'price', 'condition', 'image', 'owner', 'created_at',
                   'updated_at']
 
-    def create(self, validated_data):
-        # Automatically assign the current user as the owner if not provided
-        if 'owner' not in validated_data:
-            validated_data['owner'] = self.context['request'].CustomUser  # Assuming you're using the logged-in user
-
-        return super().create(validated_data)
+    # def create(self, validated_data):
+    #     # Automatically assign the current user as the owner if not provided
+    #     if 'owner' not in validated_data:
+    #         validated_data['owner'] = self.context['request'].CustomUser  # Assuming you're using the logged-in user
+    #
+    #     return super().create(validated_data)
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
