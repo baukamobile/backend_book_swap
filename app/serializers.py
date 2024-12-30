@@ -24,20 +24,22 @@ class BookSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Book
-        fields = ['id', 'title', 'author', 'description', 'price', 'condition', 'image', 'owner', 'created_at', 'updated_at']
+        fields = ['id', 'title', 'author', 'description', 'price', 'condition', 'image', 'owner', 'created_at',
+                  'updated_at']
 
     def create(self, validated_data):
         # Automatically assign the current user as the owner if not provided
         if 'owner' not in validated_data:
-            validated_data['owner'] = self.context['request'].user  # Use the logged-in user (from JWT)
+            validated_data['owner'] = self.context['request'].user  # Assuming you're using the logged-in user
 
         return super().create(validated_data)
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        # Return the representation without any further changes
-        return representation
+        image_url = representation.get('image', '')
 
+        # Убираем изменение URL, так как CloudinaryField уже возвращает правильный полный URL
+        return representation
 
 
 # Serializer for Transaction model
