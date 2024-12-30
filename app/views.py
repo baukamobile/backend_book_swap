@@ -1,6 +1,5 @@
 from rest_framework import viewsets
 from rest_framework.exceptions import AuthenticationFailed
-
 from .models import CustomUser, Book, Transaction, Exchange, Wishlist
 from .serializers import CustomUserSerializer, BookSerializer, TransactionSerializer, ExchangeSerializer, WishlistSerializer
 from rest_framework.authtoken.models import Token
@@ -19,10 +18,11 @@ class UserViewSet(viewsets.ModelViewSet):
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+    # permission_classes = [IsAuthenticated]
 
     def perform_create(self, serializer):
         # Automatically set the owner to the current authenticated user
-        serializer.save(owner=self.request.CustomUser)
+        serializer.save(owner=self.request.user)
 
 # ViewSet for Transaction
 class TransactionViewSet(viewsets.ModelViewSet):

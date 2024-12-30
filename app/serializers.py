@@ -30,7 +30,7 @@ class BookSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         # Automatically assign the current user as the owner if not provided
         if 'owner' not in validated_data:
-            validated_data['owner'] = self.context['request'].user  # Assuming you're using the logged-in user
+            validated_data['owner'] = self.context['request'].CustomUser  # Assuming you're using the logged-in user
 
         return super().create(validated_data)
 
