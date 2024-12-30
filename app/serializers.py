@@ -42,6 +42,7 @@ class BookSerializer(serializers.ModelSerializer):
         return representation
 
 
+
 # Serializer for Transaction model
 class TransactionSerializer(serializers.ModelSerializer):
     seller = CustomUserSerializer(read_only=True)  # Read-only field showing the seller
