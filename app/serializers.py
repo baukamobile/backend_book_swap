@@ -27,24 +27,20 @@ class BookSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'author', 'description', 'price', 'condition', 'image', 'owner', 'created_at',
                   'updated_at']
 
-    # def create(self, validated_data):
-    #     # Automatically assign the current user as the owner if not provided
-    #     if 'owner' not in validated_data:
-    #         validated_data['owner'] = self.context['request'].CustomUser  # Assuming you're using the logged-in user
-    #
-    #     return super().create(validated_data)
-
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        # image_url = representation.get('image', '')
-        # print(image_url)
-        # print('------------------------------')
-        # for book in Book.objects.all():
-            # Получаем URL из CloudinaryResource
-            # image_url = book.image.url if book.image else None
+
+        # Обработка поля image
+        image_url = instance.image.url if instance.image else None
+        if image_url:
+            # Если URL изображения начинается с 'image/upload/', исправляем его
+            if image_url.startswith('image/upload/'):
+                image_url = image_url.replace('image/upload/', '')
+
+            # Добавляем исправленный URL изображения в представление
+            representation['image'] = image_url
 
         return representation
-
 
 
 # Serializer for Transaction model
