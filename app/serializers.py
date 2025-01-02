@@ -36,8 +36,10 @@ class BookSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        image_url = representation.get('image', '')
-
+        # image_url = representation.get('image', '')
+        # print(image_url)
+        # print('------------------------------')
+        print(representation)
         # Убираем изменение URL, так как CloudinaryField уже возвращает правильный полный URL
         return representation
 
