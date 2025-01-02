@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import CustomUser, Book, Transaction, Exchange, Wishlist
 from django.contrib.auth import get_user_model, authenticate
 UserModel = get_user_model()
-
+from cloudinary.utils import cloudinary_url
 # Serializer for CustomUser model
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -39,8 +39,10 @@ class BookSerializer(serializers.ModelSerializer):
         # image_url = representation.get('image', '')
         # print(image_url)
         # print('------------------------------')
-        print(representation)
-        # Убираем изменение URL, так как CloudinaryField уже возвращает правильный полный URL
+        # for book in Book.objects.all():
+            # Получаем URL из CloudinaryResource
+            # image_url = book.image.url if book.image else None
+
         return representation
 
 
