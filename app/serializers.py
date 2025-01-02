@@ -27,20 +27,20 @@ class BookSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'author', 'description', 'price', 'condition', 'image', 'owner', 'created_at',
                   'updated_at']
 
+
     def to_representation(self, instance):
         representation = super().to_representation(instance)
 
         # Обработка поля image
         image_url = instance.image.url if instance.image else None
         if image_url:
-            # Если URL изображения начинается с 'image/upload/', исправляем его
             if image_url.startswith('image/upload/'):
-                image_url = image_url.replace('image/upload/', '')
+                image_url = f"https://res.cloudinary.com/dnellsrv8/{image_url}"
 
-            # Добавляем исправленный URL изображения в представление
             representation['image'] = image_url
-
+        print(Book.objects.get(id=18))
         return representation
+
 
 
 # Serializer for Transaction model

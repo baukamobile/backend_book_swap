@@ -19,9 +19,9 @@ import cloudinary.uploader
 import cloudinary.api
 
 cloudinary.config(
-    cloud_name="dnellsrv8",
-    api_key="477332728222264",
-    api_secret="RYqpf0TNcQCVarSH-L2brh0nkuY"
+    cloud_name="cloud_name",
+    api_key="api_key",
+    api_secret="api_secret"
 )
 folder_path = '/Users/001/PycharmProjects/backendflutter/app/media/book_img/'
 
