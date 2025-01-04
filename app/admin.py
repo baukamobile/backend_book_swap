@@ -16,3 +16,5 @@ admin.site.register(Wishlist)
 admin.site.register(Genres)
 
 
+
+#bauka some@gmail.com qwerty

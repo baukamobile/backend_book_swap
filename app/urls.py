@@ -2,18 +2,9 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from django.conf import settings
 from django.conf.urls.static import static
-# from .views import (UserViewSet,
-#                     BookViewSet,
-#                     TransactionViewSet,
-#                     ExchangeViewSet,
-#                     WishlistViewSet,
-#                      get_users,
-# register,
-#                     )
 
 from . views import *
 
-# from .views import CustomTokenObtainPairView, CustomTokenRefreshView, logout, register
 # Create a router and register your viewsets
 router = DefaultRouter()
 router.register(    r'users', UserViewSet)
