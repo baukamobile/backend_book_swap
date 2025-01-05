@@ -74,13 +74,6 @@ class WishlistSerializer(serializers.ModelSerializer):
         fields = ['id', 'user', 'book', 'added_at']
 
 
-# class UserRegisterSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = UserModel
-
-# class UserLoginSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = CustomUser
 
 
 #New variant
@@ -102,11 +95,6 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
-
-# class UserSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ['username']
 
 
 class UserSerializer(serializers.ModelSerializer):
