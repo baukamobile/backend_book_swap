@@ -33,11 +33,16 @@ api_key = env("api_key")
 api_secret = env("api_secret")
 
 print("api_secret:", os.environ.get("api_secret"))
-namedb = os.getenv('NAME')
-userdb = os.getenv('USER')
-passworddb = os.getenv('PASSWORD')
-hostdb = os.getenv('HOST')
-portdb = os.getenv('PORT')
+# namedb = os.getenv('NAME')
+# userdb = os.getenv('USER')
+# passworddb = os.getenv('PASSWORD')
+# hostdb = os.getenv('HOST')
+# portdb = os.getenv('PORT')
+namedb = env("NAME")
+userdb = env("USER")
+passworddb = env("PASSWORD")
+hostdb = env("HOST")
+portdb = env("PORT")
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
