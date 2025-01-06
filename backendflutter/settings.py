@@ -125,11 +125,11 @@ WSGI_APPLICATION = 'backendflutter.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': f'{namedb}',
+        'NAME': 'railway',
         'USER': 'postgres',
-        'PASSWORD': f'{passworddb}',
-        'HOST': f'{hostdb}',
-        'PORT': f'{portdb}',
+        'PASSWORD': 'dNwZLmegBmRseYNPoQsquBHnQdQzXEXN',
+        'HOST': 'junction.proxy.rlwy.net',
+        'PORT': '28361',
     }
 }
 
