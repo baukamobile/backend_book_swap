@@ -33,7 +33,11 @@ api_key = env("api_key")
 api_secret = env("api_secret")
 
 print("api_secret:", os.environ.get("api_secret"))
-
+namedb = os.getenv('NAME')
+userdb = os.getenv('USER')
+passworddb = os.getenv('PASSWORD')
+hostdb = os.getenv('HOST')
+portdb = os.getenv('PORT')
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
@@ -121,11 +125,11 @@ WSGI_APPLICATION = 'backendflutter.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'railway',
+        'NAME': f'{namedb}',
         'USER': 'postgres',
-        'PASSWORD': 'dNwZLmegBmRseYNPoQsquBHnQdQzXEXN',
-        'HOST': 'junction.proxy.rlwy.net',
-        'PORT': '28361',
+        'PASSWORD': f'{passworddb}',
+        'HOST': f'{hostdb}',
+        'PORT': f'{portdb}',
     }
 }
 
