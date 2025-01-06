@@ -43,6 +43,13 @@ userdb = env("USER")
 passworddb = env("PASSWORD")
 hostdb = env("HOST")
 portdb = env("PORT")
+print('----------')
+print(namedb)
+print(userdb)
+print(passworddb)
+print(hostdb)
+print(portdb)
+print('----------')
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
