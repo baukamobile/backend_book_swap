@@ -9,26 +9,67 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import os
 from pathlib import Path
+import django_heroku
+import dj_database_url
 
+import os
+import environ
+from pathlib import Path
+import django_heroku
+
+# Инициализация окружения
+env = environ.Env(
+    DEBUG=(bool, False)
+)
+
+# Чтение .env
+environ.Env.read_env()
+
+# Получение переменных окружения
+cloud_name = env("cloud_name")
+api_key = env("api_key")
+api_secret = env("api_secret")
+
+print("api_secret:", os.environ.get("api_secret"))
+# namedb = os.getenv('NAME')
+# userdb = os.getenv('USER')
+# passworddb = os.getenv('PASSWORD')
+# hostdb = os.getenv('HOST')
+# portdb = os.getenv('PORT')
+namedb = env("NAME")
+userdb = env("USER")
+passworddb = env("PASSWORD")
+hostdb = env("HOST")
+portdb = env("PORT")
+print('----------')
+print(namedb)
+print(userdb)
+print(passworddb)
+print(hostdb)
+print(portdb)
+print('----------')
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+cloudinary.config(
+    cloud_name="cloud_name",
+    api_key="api_key",
+    api_secret="api_secret"
+)
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-cku43lgkg3!7njuh%205x60woq0f1r(kd9wh+r@8e_2ztq#3=m'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+import environ
 
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -42,9 +83,16 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework.authtoken',
     'corsheaders',
+    'cloudinary',
+    'cloudinary_storage',
 ]
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -52,15 +100,19 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
+CORS_ALLOW_ALL_ORIGINS = True
+
+# OR for specific origins:
 CORS_ALLOWED_ORIGINS = [
-    "http://127.0.0.1:8000"
-    # "http://127.0.0.1:3000",
-    # "http://your-production-url.com",
+    "http://127.0.0.1:8000",
+    "http://localhost:8000",
+    "http://192.168.0.102:8000",
+    "http://192.168.0.102",
 ]
 
+APPEND_SLASH = False
 
 ROOT_URLCONF = 'backendflutter.urls'
 
@@ -82,41 +134,45 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backendflutter.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'backendflutter',
-        'USER': 'nurbergen',
-        'PASSWORD': 'qwerty123',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': f'{passworddb}',
+        'HOST': 'junction.proxy.rlwy.net',
+        'PORT': '28361',
     }
 }
 
 
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
 }
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+        # 'rest_framework.authentication.TokenAuthentication',
     ],
 }
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',  # If using token authentication
-    ],
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=90),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
 }
 
-# Password validation
+AUTH_USER_MODEL = 'app.CustomUser'
+
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -135,8 +191,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/5.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
@@ -146,13 +200,12 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
-
 STATIC_URL = 'static/'
-
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+django_heroku.settings(locals())
+# For serving media files
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

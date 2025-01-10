@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-
+from cloudinary.models import CloudinaryField
 # Custom user manager to manage User creation
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, name, password=None, **extra_fields):
@@ -23,16 +23,33 @@ class CustomUserManager(BaseUserManager):
             raise ValueError('Superuser must have is_superuser=True.')
 
         return self.create_user(email, name, password, **extra_fields)
+class RegionUser(models.Model):
+    CITY_CHOICES = [
+        ('almaty', 'Almaty'),
+        ('astana', 'Astana'),
+        ('shymkent', 'Shymkent'),
+        ('aktobe', 'Aktobe'),
+        ('karaganda', 'Karaganda'),
+    ]
+    city = models.CharField(max_length=100, choices=CITY_CHOICES, blank=True,default='Almaty')
+
+    def __str__(self):
+        return self.city
 
 # Custom User model
 class CustomUser(AbstractBaseUser):
     name = models.CharField(max_length=100)
     email = models.EmailField(max_length=100, unique=True)
+    password = models.CharField(max_length=100)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     date_joined = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(auto_now=True)
+    region_user = models.ForeignKey(RegionUser, on_delete=models.SET_NULL, null=True, blank=True)
+    profile_image = CloudinaryField('image', null=True, blank=True, default='profile_img/avtr.jpg')  # Profile image
+    user_book_id = models.ForeignKey('Book',on_delete=models.SET_NULL, null=True, blank=True)
+    book_image = CloudinaryField('image', null=True, blank=True)  # Book image
 
     objects = CustomUserManager()
 
@@ -42,15 +59,34 @@ class CustomUser(AbstractBaseUser):
     def __str__(self):
         return f"{self.name} ({self.email})"
 
-# Book model representing a book
+class Genres(models.Model):
+    GENRE_CHOICES = [
+        ('fiction', 'Fiction'),
+        ('mystery', 'Mystery'),
+        ('fantasy', 'Fantasy'),
+        ('sci-fi', 'Sci-Fi'),
+        ('romance', 'Romance'),
+        ('horror', 'Horror'),
+        ('thriller', 'Thriller'),
+        ('biography', 'Biography'),
+        ('history', 'History'),
+        ('self-help', 'Self-Help'),
+    ]
+    genre = models.CharField(max_length=100, choices=GENRE_CHOICES, blank=True, default='Fiction')
+
+    def __str__(self):
+        return self.genre
+
 class Book(models.Model):
     title = models.CharField(max_length=255)
     author = models.CharField(max_length=255)
     description = models.TextField()
-    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)  # Optional if the book is for exchange
+    genre = models.ForeignKey(Genres, on_delete=models.SET_NULL, null=True, blank=True)  # Genre list
+    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)  # if the book is for exchange
     condition_choices = [('new', 'New'), ('used', 'Used')]
     condition = models.CharField(max_length=10, choices=condition_choices)
-    image = models.ImageField(upload_to='book_images/', blank=True, null=True)  # Optional image for the book
+    # image = models.ImageField(upload_to='book_img/', blank=True, null=True)
+    image = CloudinaryField('image', blank=True, null=True)
     owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="owned_books")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -92,3 +128,29 @@ class Wishlist(models.Model):
 
     def __str__(self):
         return f"{self.user.email}'s wishlist for {self.book.title}"
+
+class Chat(models.Model):
+    members = models.ManyToManyField(CustomUser, related_name='chats')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Chat {self.id} - Members: {', '.join([p.email for p in self.participants.all()])}"
+
+class Message(models.Model):
+    chat = models.ForeignKey(Chat, on_delete=models.CASCADE, related_name="messages")
+    sender = models.ForeignKey(CustomUser,on_delete=models.CASCADE, related_name="sent_messages")
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+
+
+
+#
+# Name	Email	Password
+# John Smith	john.smith@example.com	Jsm!89L@o#12
+# Alice Johnson	alice.j@example.com	AJo@2023p#45
+# Robert Brown	robert.brown@example.com	RBr$7Kx!90%T
+# Emily Davis	emily.davis@example.com	EmD@84!cX$2W
+# Michael Wilson	michael.w@example.com	MWil*123#q@9
+
+

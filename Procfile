@@ -1,0 +1,1 @@
+web gunicorn backendflutter.wsgi:application --log-file -
