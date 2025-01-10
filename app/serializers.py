@@ -20,7 +20,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
         return user
 # Serializer for Book model
 class BookSerializer(serializers.ModelSerializer):
-    owner = CustomUserSerializer(read_only=True)  # Read-only field showing the owner of the book
+    owner = CustomUserSerializer(read_only=True)
 
     class Meta:
         model = Book
@@ -45,9 +45,9 @@ class BookSerializer(serializers.ModelSerializer):
 
 # Serializer for Transaction model
 class TransactionSerializer(serializers.ModelSerializer):
-    seller = CustomUserSerializer(read_only=True)  # Read-only field showing the seller
-    buyer = CustomUserSerializer(read_only=True)  # Read-only field showing the buyer
-    book = BookSerializer(read_only=True)  # Read-only field showing the book in the transaction
+    seller = CustomUserSerializer(read_only=True)
+    buyer = CustomUserSerializer(read_only=True)
+    book = BookSerializer(read_only=True)
 
     class Meta:
         model = Transaction
