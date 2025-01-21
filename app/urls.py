@@ -21,12 +21,6 @@ urlpatterns = [
     path('api/user/', userget.as_view()),
     path('api/logout/',logoutView.as_view())
 
-
-    # path('api/login/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
-    # path('api/logout/', logout),
-    # path('api/register/', register),
-    # path('api/users/', get_users),
-
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 #bauka some@gmail.com qwerty
