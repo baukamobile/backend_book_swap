@@ -129,20 +129,7 @@ class Wishlist(models.Model):
     def __str__(self):
         return f"{self.user.email}'s wishlist for {self.book.title}"
 
-class Chat(models.Model):
-    members = models.ManyToManyField(CustomUser, related_name='chats')
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"Chat {self.id} - Members: {', '.join([p.email for p in self.participants.all()])}"
-
-class Message(models.Model):
-    chat = models.ForeignKey(Chat, on_delete=models.CASCADE, related_name="messages")
-    sender = models.ForeignKey(CustomUser,on_delete=models.CASCADE, related_name="sent_messages")
-    content = models.TextField()
-    timestamp = models.DateTimeField(auto_now_add=True)
-    is_read = models.BooleanField(default=False)
-
+#removing message and room models and insert to chat app
 
 
 #
