@@ -279,6 +279,3 @@ class logoutView(APIView):
         }
         return respnse
 # =======
-def nothing(request):
-    pass
-# >>>>>>> b868445 (nothing nooothing)
