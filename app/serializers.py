@@ -2,8 +2,8 @@ from rest_framework import serializers
 from .models import CustomUser, Book, Transaction, Exchange, Wishlist
 from django.contrib.auth import get_user_model, authenticate
 UserModel = get_user_model()
-from cloudinary.utils import cloudinary_url
-# Serializer for CustomUser model
+
+
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
@@ -55,19 +55,18 @@ class TransactionSerializer(serializers.ModelSerializer):
 
 # Serializer for Exchange model
 class ExchangeSerializer(serializers.ModelSerializer):
-    offeror = CustomUserSerializer(read_only=True)  # Read-only field showing the offeror
-    receiver = CustomUserSerializer(read_only=True)  # Read-only field showing the receiver
-    offeror_book = BookSerializer(read_only=True)  # Read-only field showing the book offered by the offeror
-    receiver_book = BookSerializer(read_only=True)  # Read-only field showing the book received by the receiver
+    offeror = CustomUserSerializer(read_only=True)
+    receiver = CustomUserSerializer(read_only=True)
+    offeror_book = BookSerializer(read_only=True)
+    receiver_book = BookSerializer(read_only=True)
 
     class Meta:
         model = Exchange
         fields = ['id', 'offeror', 'receiver', 'offeror_book', 'receiver_book', 'status', 'date']
 
-# Serializer for Wishlist model
 class WishlistSerializer(serializers.ModelSerializer):
-    user = CustomUserSerializer(read_only=True)  # Read-only field showing the user
-    book = BookSerializer(read_only=True)  # Read-only field showing the book on the wishlist
+    user = CustomUserSerializer(read_only=True)
+    book = BookSerializer(read_only=True)
 
     class Meta:
         model = Wishlist

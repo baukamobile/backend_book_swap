@@ -278,4 +278,3 @@ class logoutView(APIView):
             "message":"success"
         }
         return respnse
-# =======
