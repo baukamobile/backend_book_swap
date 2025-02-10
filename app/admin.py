@@ -19,3 +19,4 @@ admin.site.register(Genres)
 
 #bauka some@gmail.com qwerty
 #admin any@gmail.com qwerty
+#sat@gmail.com sat 4444
