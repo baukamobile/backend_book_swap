@@ -85,6 +85,7 @@ class Book(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)  # if the book is for exchange
     condition_choices = [('new', 'New'), ('used', 'Used')]
     condition = models.CharField(max_length=10, choices=condition_choices)
+    region=models.ForeignKey(RegionUser, null=True, on_delete=models.SET_NULL)
     # image = models.ImageField(upload_to='book_img/', blank=True, null=True)
     image = CloudinaryField('image', blank=True, null=True)
     owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="owned_books")
