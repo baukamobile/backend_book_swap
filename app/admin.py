@@ -18,3 +18,4 @@ admin.site.register(Genres)
 
 
 #bauka some@gmail.com qwerty
+#admin any@gmail.com qwerty
