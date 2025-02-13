@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CustomUser, Book, Transaction, Exchange, Wishlist
+from .models import CustomUser, Book, Transaction, Exchange, Wishlist,RegionUser,Genres
 from django.contrib.auth import get_user_model, authenticate
 UserModel = get_user_model()
 
@@ -110,3 +110,14 @@ class UserSerializer(serializers.ModelSerializer):
             instance.set_password(password)
             instance.save()
             return instance
+
+class RegionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RegionUser
+        fields = ['city']
+
+
+class GenresSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Genres
+        fields = ['genre']

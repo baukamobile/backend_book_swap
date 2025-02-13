@@ -19,7 +19,10 @@ urlpatterns = [
     path('api/register/', register.as_view()),
     path('api/login/', loginView.as_view()),
     path('api/user/', userget.as_view()),
-    path('api/logout/',logoutView.as_view())
+    path('api/logout/',logoutView.as_view()),
+    path('api/regions/', RegionsView.as_view()),
+    path('api/genres/', GenresView.as_view()),
+
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

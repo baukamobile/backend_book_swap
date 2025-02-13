@@ -1,11 +1,12 @@
 from rest_framework import viewsets
 from rest_framework.exceptions import AuthenticationFailed
-from .models import CustomUser, Book, Transaction, Exchange, Wishlist
-from .serializers import CustomUserSerializer, BookSerializer, TransactionSerializer, ExchangeSerializer, WishlistSerializer
+from .models import CustomUser, Book, Transaction, Exchange, Wishlist,RegionUser,Genres
+from .serializers import CustomUserSerializer, BookSerializer, TransactionSerializer, ExchangeSerializer, WishlistSerializer,RegionSerializer,GenresSerializer
 from rest_framework.authtoken.models import Token
 from rest_framework import status
 from django.contrib.auth import authenticate
 from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -278,3 +279,11 @@ class logoutView(APIView):
             "message":"success"
         }
         return respnse
+
+class RegionsView(ListAPIView):
+    queryset = RegionUser.objects.all()
+    serializer_class = RegionSerializer
+
+class GenresView(ListAPIView):
+    queryset = Genres.objects.all()
+    serializer_class = GenresSerializer
