@@ -2,8 +2,6 @@ from rest_framework import serializers
 from .models import CustomUser, Book, Transaction, Exchange, Wishlist,RegionUser,Genres
 from django.contrib.auth import get_user_model, authenticate
 UserModel = get_user_model()
-
-
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
@@ -26,8 +24,6 @@ class BookSerializer(serializers.ModelSerializer):
         model = Book
         fields = ['id', 'title', 'author', 'description', 'price', 'condition', 'image', 'owner', 'created_at',
                   'updated_at']
-
-
     def to_representation(self, instance):
         representation = super().to_representation(instance)
 
@@ -40,9 +36,6 @@ class BookSerializer(serializers.ModelSerializer):
             representation['image'] = image_url
         print(Book.objects.get(id=18))
         return representation
-
-
-
 # Serializer for Transaction model
 class TransactionSerializer(serializers.ModelSerializer):
     seller = CustomUserSerializer(read_only=True)
@@ -71,9 +64,6 @@ class WishlistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Wishlist
         fields = ['id', 'user', 'book', 'added_at']
-
-
-
 
 #New variant
 from django.contrib.auth.models import User

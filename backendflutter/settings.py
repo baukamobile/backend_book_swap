@@ -43,13 +43,7 @@ userdb = env("USER")
 passworddb = env("PASSWORD")
 hostdb = env("HOST")
 portdb = env("PORT")
-print('----------')
-print(namedb)
-print(userdb)
-print(passworddb)
-print(hostdb)
-print(portdb)
-print('----------')
+
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
@@ -86,6 +80,7 @@ INSTALLED_APPS = [
     'cloudinary',
     'cloudinary_storage',
     'chat',
+    'django_extensions',
 ]
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
@@ -172,7 +167,7 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': True,
 }
 
-AUTH_USER_MODEL = 'app.CustomUser'
+# AUTH_USER_MODEL = 'app.CustomUser'
 
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
