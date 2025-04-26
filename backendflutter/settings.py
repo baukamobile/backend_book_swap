@@ -43,6 +43,7 @@ userdb = env("USER")
 passworddb = env("PASSWORD")
 hostdb = env("HOST")
 portdb = env("PORT")
+db_url = env('db_url')
 
 import cloudinary
 import cloudinary.uploader
@@ -131,14 +132,15 @@ TEMPLATES = [
 WSGI_APPLICATION = 'backendflutter.wsgi.application'
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'railway',
-        'USER': 'postgres',
-        'PASSWORD': f'{passworddb}',
-        'HOST': 'junction.proxy.rlwy.net',
-        'PORT': '28361',
-    }
+    'default':dj_database_url.parse(env('db_url'))
+        # {
+        # 'ENGINE': 'django.db.backends.postgresql',
+        # 'NAME': 'railway',
+        # 'USER': 'postgres',
+        # 'PASSWORD': f'{passworddb}',
+        # 'HOST': 'junction.proxy.rlwy.net',
+        # 'PORT': '28361',
+    # }
 }
 
 
