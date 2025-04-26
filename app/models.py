@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from cloudinary.models import CloudinaryField
+from django.contrib.auth.models import Permission, Group
+
 # Custom user manager to manage User creation
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, name, password=None, **extra_fields):
@@ -50,11 +52,21 @@ class CustomUser(AbstractBaseUser,PermissionsMixin):
     profile_image = CloudinaryField('image', null=True, blank=True, default='profile_img/avtr.jpg')  # Profile image
     user_book_id = models.ForeignKey('Book',on_delete=models.SET_NULL, null=True, blank=True)
     book_image = CloudinaryField('image', null=True, blank=True)  # Book image
-
+    groups = models.ManyToManyField(
+        Group,
+        related_name='customuser_groups',
+        blank=True
+    )
+    user_permissions = models.ManyToManyField(
+        Permission,
+        related_name='customuser_permissions',
+        blank=True
+    )
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name']
+
     def has_perm(self, perm, obj=None):
         return True
     def has_module_perms(self, app_label):

@@ -32,7 +32,7 @@ cloud_name = env("cloud_name")
 api_key = env("api_key")
 api_secret = env("api_secret")
 
-print("api_secret:", os.environ.get("api_secret"))
+# print("api_secret:", os.environ.get("api_secret"))
 # namedb = os.getenv('NAME')
 # userdb = os.getenv('USER')
 # passworddb = os.getenv('PASSWORD')

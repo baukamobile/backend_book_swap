@@ -7,7 +7,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('app', '0018_book_region'),
-        ('auth', '0013_auto_20250113_1708'),
+        # ('auth', '0013_auto_20250113_1708'),
     ]
 
     operations = [
