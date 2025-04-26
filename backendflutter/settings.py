@@ -61,7 +61,7 @@ SECRET_KEY = 'django-insecure-cku43lgkg3!7njuh%205x60woq0f1r(kd9wh+r@8e_2ztq#3=m
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['backend_book_swap.onrender.com']
 import environ
 
 
