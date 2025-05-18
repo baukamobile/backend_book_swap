@@ -10,6 +10,7 @@ from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
+
 # ViewSet for User
 class UserViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all()
@@ -110,6 +111,22 @@ from .serializers import UserRegisterSerializer, UserSerializer
 
 from datetime import datetime, timedelta
 
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from .models import Book
+from .serializers import BookSerializer
+
+@api_view(['GET'])
+def user_books(request, user_id):
+    try:
+        books = Book.objects.filter(owner_id=user_id)
+        if not books.exists():
+            return Response({"message": "No books found for this user"}, status=status.HTTP_404_NOT_FOUND)
+        serializer = BookSerializer(books, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 @permission_classes([AllowAny])

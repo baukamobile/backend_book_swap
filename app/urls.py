@@ -22,6 +22,7 @@ urlpatterns = [
     path('api/logout/',logoutView.as_view()),
     path('api/regions/', RegionsView.as_view()),
     path('api/genres/', GenresView.as_view()),
+    path('api/users/<int:user_id>/books/', user_books, name='user-books'),
 
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

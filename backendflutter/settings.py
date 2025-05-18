@@ -82,6 +82,8 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'chat',
     'django_extensions',
+    'rest_framework_swagger',
+    'drf_yasg',
 ]
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 

@@ -1,10 +1,7 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 from app.models import Book, Genres, Transaction, Exchange, Wishlist
-
 CustomUser = get_user_model()
-
-
 class CustomUserTest(TestCase):
     def setUp(self):
         self.user = CustomUser.objects.create_user(
@@ -12,15 +9,12 @@ class CustomUserTest(TestCase):
             email="test@example.com",
             password="password123"
         )
-
     def test_create_user(self):
         self.assertEqual(self.user.email, "test@example.com")
         self.assertTrue(self.user.check_password("password123"))
 
     def test_user_str(self):
         self.assertEqual(str(self.user), "Test User (test@example.com)")
-
-
 class BookTest(TestCase):
     def setUp(self):
         self.user = CustomUser.objects.create_user(name="Owner", email="owner@example.com", password="password")
