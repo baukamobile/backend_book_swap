@@ -67,6 +67,7 @@ import environ
 
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -84,6 +85,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'rest_framework_swagger',
     'drf_yasg',
+
 ]
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
