@@ -2,13 +2,15 @@ from django.contrib import admin
 
 # Register your models here.
 from .models import CustomUser,Exchange, Book,Transaction,Wishlist,RegionUser,Genres
-
-admin.site.register(CustomUser)
+class CustomUserAdmin(admin.ModelAdmin):
+    list_display = ('email','name','region_user','user_book_id')
+admin.site.register(CustomUser,CustomUserAdmin)
 admin.site.register(RegionUser)
 
 admin.site.register(Exchange)
-
-admin.site.register(Book)
+class BookAdmin(admin.ModelAdmin):
+    list_display = ('title','author','description','genre','price','region','owner')
+admin.site.register(Book,BookAdmin)
 
 admin.site.register(Transaction)
 

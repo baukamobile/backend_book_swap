@@ -1,9 +1,12 @@
+from email.policy import default
+
 from django.db import models
 from app.models import CustomUser
 # Create your models here.
 class Chat(models.Model):
     members = models.ManyToManyField(CustomUser, related_name='chats')
     created_at = models.DateTimeField(auto_now_add=True)
+    is_group = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Chat {self.id} - Members: {', '.join([p.email for p in self.participants.all()])}"
